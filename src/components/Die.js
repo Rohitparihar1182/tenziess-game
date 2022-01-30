@@ -7,7 +7,7 @@ export default function Die(props){
     return (
         <div
             style={style}  
-            className="dice"
+            className="dice flex"
             onClick={props.holdDie}
         >
             <h2>{props.die.value}</h2>

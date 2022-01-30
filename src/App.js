@@ -3,11 +3,19 @@ import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import Die from "./components/Die";
 import "./App.css";
-
+import Nav from './components/Nav'
+import { BrowserRouter as Router ,Routes, Route} from "react-router-dom";
+import Game from "./components/Game";
+import Rules from "./components/Rules";
+import About from "./components/About"
+import Contact from "./components/Contact";
 
 export default function App() {
     const [dice, setDice] = React.useState(allNewDice());
     const [tenzie, setTenzie] = React.useState(false)
+    const [rolls, setRolls] = React.useState(1)
+    const [rollsText, setRollsText] = React.useState("")
+    // TimeTaken to complete a game : const [timeTaken, setTimeTaken] = React.useState(0)
 
     const diceElements = dice.map((die) => (
         <Die key={die.id} die={die} holdDie={() => holdDice(die.id)} />
@@ -36,10 +44,14 @@ export default function App() {
                     return die.isHeld ? die : generateNewDie();
                 })
             );
+            setRolls(prevRolls=>prevRolls+1)
+            setRollsText(`No of rolls : ${rolls}`)
         }
         else{
             setDice(allNewDice())
             setTenzie(false)
+            setRollsText('')
+            setRolls(1)
         }
     }
     function holdDice(id) {
@@ -56,23 +68,29 @@ export default function App() {
         const allSameValue = dice.every(die => die.value === firstValue)
         if (allHeld && allSameValue) {
             setTenzie(true)
+            setRollsText(`You won the game in ${rolls-1} rolls`)
         }
-    }, [dice])
-
+    }, [dice,rolls])
+    
     return (
-        <main>
-            {tenzie && <Confetti/>}
-            <div className="title-container">
-                <h1 className="title">Tenzies</h1>
-                <p className="instructions">
-                    Roll until all dice are the same. Click each die to freeze it at its
-                    current value between rolls.
-                </p>
-            </div>
-            <div className="dice-container">{diceElements}</div>
-            <button className="btn" onClick={rollDice}>
-                {tenzie ? "New Game" : "Roll"}
-            </button>
-        </main>
+        <div className="App">
+        {tenzie && <Confetti width={window.innerWidth}/>}
+        <Router>
+            <Nav/>
+            <Routes>
+                <Route path='/' element={
+                    <Game 
+                        rollsText={rollsText}
+                        diceElements={diceElements}
+                        rollDice={rollDice}
+                        tenzie={tenzie}
+                    />
+                } />
+                <Route path="about" element={<About/>}/>
+                <Route path="rules" element={<Rules/>} />
+                <Route path="contact" element={<Contact/>}/>
+            </Routes>
+        </Router>
+        </div>
     );
 }
