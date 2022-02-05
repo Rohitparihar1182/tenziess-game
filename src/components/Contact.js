@@ -11,7 +11,6 @@ function Contact() {
     
     function handleChange(e){
         const {value, name}=e.target
-        console.log(value,name)
         setReviewObj(prevState=>{
             return {
                 ...prevState,
@@ -35,6 +34,12 @@ function Contact() {
 
     function submitReview(e){
         e.preventDefault()
+        setReviewObj({
+            name:'',
+            email:'',
+            review:''
+        })
+        alert('Thanks for your feedback, have a good day')
     }
 
     return ( 
@@ -105,7 +110,6 @@ function Contact() {
                     <span style={style}>Type your message ...</span>
                 </div>
                 <div className="inputBox">
-                    {/* <input onClick={submitReview} className="contact--btn" type="submit" name='submit' defaultValue="Send" /> */}
                     <button className="contact--btn" onClick={submitReview}>Submit</button>
                 </div>
                 </form>

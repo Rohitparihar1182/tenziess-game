@@ -46,7 +46,14 @@ main {
 
 .title-container{
   text-align: center;
-  max-width: 400px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.title-container > p{
+  font-weight: 600;
+  color: #0B2434;
 }
 
 .dice-container{

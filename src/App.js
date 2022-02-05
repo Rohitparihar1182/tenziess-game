@@ -1,6 +1,5 @@
 import React from "react";
 import { nanoid } from "nanoid";
-import Confetti from "react-confetti";
 import Die from "./components/Die";
 import "./App.css";
 import Nav from './components/Nav'
@@ -14,8 +13,8 @@ export default function App() {
     const [dice, setDice] = React.useState(allNewDice());
     const [tenzie, setTenzie] = React.useState(false)
     const [rolls, setRolls] = React.useState(1)
-    const [rollsText, setRollsText] = React.useState("")
-    // TimeTaken to complete a game : const [timeTaken, setTimeTaken] = React.useState(0)
+    const [rollsText, setRollsText] = React.useState("No of rolls :")
+    const [best, setBest] = React.useState()
 
     const diceElements = dice.map((die) => (
         <Die key={die.id} die={die} holdDie={() => holdDice(die.id)} />
@@ -50,7 +49,7 @@ export default function App() {
         else{
             setDice(allNewDice())
             setTenzie(false)
-            setRollsText('')
+            setRollsText('No of rolls :')
             setRolls(1)
         }
     }
@@ -69,12 +68,22 @@ export default function App() {
         if (allHeld && allSameValue) {
             setTenzie(true)
             setRollsText(`You won the game in ${rolls-1} rolls`)
+            if(localStorage.getItem('allTimeBest')){
+                if(localStorage.getItem('allTimeBest')>rolls-1){
+                    localStorage.setItem('allTimeBest',rolls-1)
+                }
+            }
+            else{
+                localStorage.setItem('allTimeBest',rolls-1)   
+            }
+        }
+        if(localStorage.getItem('allTimeBest')){
+            setBest(localStorage.getItem('allTimeBest'))
         }
     }, [dice,rolls])
     
     return (
         <div className="App">
-        {tenzie && <Confetti width={window.innerWidth}/>}
         <Router>
             <Nav/>
             <Routes>
@@ -84,6 +93,7 @@ export default function App() {
                         diceElements={diceElements}
                         rollDice={rollDice}
                         tenzie={tenzie}
+                        best={best}
                     />
                 } />
                 <Route path="about" element={<About/>}/>
