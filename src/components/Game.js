@@ -8,7 +8,7 @@ function Game(props) {
             <main>               
                 <div className="title-container">
                     <p>{props.rollsText}</p>
-                    <p>All time Best : {props.best}</p>
+                    {!props.tenzie && <p>All time Best : {props.best}</p>}
                 </div>
                 <div className="dice-container">{props.diceElements}</div>
                 <button className="btn" onClick={props.rollDice}>

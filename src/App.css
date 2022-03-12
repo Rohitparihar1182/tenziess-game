@@ -119,7 +119,6 @@ main {
   flex-direction: column;
   background-color: #ff9999;
   padding: 60px;
-  /* max-width: 90vw; */
 }
 
 .rules > *{
