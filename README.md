@@ -1,1 +1,1 @@
-Sorry for the empty Readme I have it on my concern and soon i will change it 
+[view app](https://a-tenzies-game.netlify.app/)
